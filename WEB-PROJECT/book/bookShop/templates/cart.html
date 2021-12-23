@@ -1,0 +1,183 @@
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Saira Semi Condensed' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Sail' rel='stylesheet'>
+<link rel="stylesheet" href="C:\Users\Nur\Desktop\HTML\font-awesome-4.7.0\css\font-awesome.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>{% block title %} Main {% endblock title%}</title>
+    {% load static %}
+    <link href="{% static 'css/Main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+    <nav style="background-color: B8680A; border-radius: 10px 10px 10px 10px;" class="navbar navbar-expand-lg navbar-light">
+        <div class="row col-12 col-sm-12 " style="padding-right: 0px;">
+            <div class="col-12 col-sm-12 col-lg-1 borderAdapt" style="background-color: rgb(255, 194, 80);">
+            <button class="navbar-toggler" style = "margin-top: 5px;" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand mt-lg-0 float-right float-sm-right flaot-lg-left"  href="#">
+                <div style="padding-right: 30%; padding-left: -20%">
+                    <img src="{% static '/image/book.png' %}" width="40" height="40" alt="BookShop">
+                </div>
+            </a>
+
+            </div>
+            <div class="col-12 col-sm-12 col-lg-11" style="padding-right: 0px;">
+                <div class="row justify-content-between collapse navbar-collapse" id="navbarTogglerDemo03" style="background-color: rgb(255, 170, 73); padding-bottom: 17px; margin-right: 0px;">
+                        <div class="col-12 col-sm-12 col-lg-5">
+                            <ul class="row col-12 col-sm-12 navbar-nav mt-lg-1" style="margin-left: 0px;">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'Main' %}"> Home </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'stores' %}"> Stores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'bestseller' %}"> Bestsellers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'new' %}"> New</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-5 " style="margin: 0px; padding: 0px;">
+                            <ul class="navbar-nav " style="margin: 0px; padding: 0px;">
+                                <div class="row col-12 col-sm-12 justify-content-end" style="margin: 0px; padding: 0px; display: inline-flex; white-space: nowrap;">
+                                    <div class="col-12 col-sm-12 col-lg-3">
+                                        {% if request.user.is_authenticated %}
+                                        <li class="nav-item row float-lg-right">
+                                            <a class="nav-link" style="margin-top: 3px;" href="{% url 'cart' %}">Cart</a>
+                                            <a class="nav-link" href="{% url 'cart' %}">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-top: 8px; color: black;"></i>
+                                                <span class="badge badge-pill badge-danger"> {{ cart.total_amount_of_products }} </span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-lg-4 margin: 0px; padding: 0px;" style="margin: 0px; padding: 0px;">
+                                        <li class="nav-item row float-lg-right margin: 0px; padding: 0px;" style="margin-left: 0px; margin-right: 0px;">
+                                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-top: 12px;"></i>
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 3px;">My account</a>
+
+                                            {% if request.user.is_authenticated %}
+
+                                            <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="#">{{ request.user.username}}</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'logout' %}">LogOut</a></button>
+                                                </div>
+                                            {% else %}
+                                                <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'login' %}">Log In</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'registration' %}">Register</a></button>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <h3 class="text-center mt-5 mb-5"> Your Cart {% if cart.total_amount_of_products < 1 %}Empty{% endif %}</h3>
+    <table class="table" style="margin-bottom: 80px;">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Picture</th>
+      <th scope="col">Price</th>
+      <th scope="col">Count</th>
+      <th scope="col">Total price</th>
+        <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in cart.products.all %}
+    <tr>
+      <td scope="row">{{ item.book.name }}</td>
+      <td class="w-25"><img src="{{ item.book.image.url }}" class="img-fluid" width="50" height="50"></td>
+      <td>{{ item.book.money }}</td>
+      <td>{{ item.amount }}</td>
+      <td>{{ item.total_price }}</td>
+        <td><a class="btn btn-danger" href="/deleteElementFromCart?item_id={{ item.id }}">Delete element</a></td>
+    </tr>
+  {% endfor %}
+        <tr>
+          <td colspan="2"></td>
+          <td>Итого:</td>
+          <td>{{ cart.total_amount_of_products }}</td>
+          <td><strong>{{ cart.total_price }} $.</strong></td>
+            {% if cart.total_amount_of_products >= 1 %}
+          <td><a href="{% url 'checkout' %}"><button class="btn btn-primary">Перейти к оформлению</button></a></td>
+            {% endif %}
+
+        </tr>
+
+
+  </tbody>
+</table>
+
+<!--    {{ cart }}-->
+
+
+
+<div class="" style="background-color: B8680A; padding-right: 40px;padding-left: 40px; padding-top: 40px;">
+          <div class="row footer-row" style="padding: 20px; background-color: rgb(255, 170, 73); border-radius: 10px;">
+
+      <ul class="col-sm-12 col-md-3 firstMenu">
+        <li class="footerHeading">Customer Service</li>
+        <li class="navodka"><a rel="nofollow" href="Contact.html">Contact Us</a></li>
+        <li class="navodka"><a rel="nofollow" href="Login.html">Your Account</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Store Policies &amp; Info</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Returns</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">FAQs</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Privacy Policy</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Security</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Helpful Links</li>
+        <li class="navodka"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="navodka"><a href="{% url 'about' %}">General Info</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <a href="https://dashboard.stripe.com/test/dashboard"><li class="footerHeading" style="margin-bottom: 10px;">Payment Methods</li></a>
+        <li><div class="payment-methods-wrap">
+      <div class="cards-accepted">
+        <span id="payment-method-images3" class="cardname amex">
+            <a href="https://dashboard.stripe.com/test/dashboard"><img src="{% static '/MainImage/stripe.png' %}" class="" style="height: 30px; width: 50px;"></a>
+        </span>
+      </div>
+    </div></li>
+      </ul>
+      <div class="clearfix"></div>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="copyright-row" style="padding: 15px;">
+            <div class="copyright">
+
+              <p style="text-align: center;" class="navodkaSpecial">Powered By Me <a href="#" target="_blank" class="">Nurbol Kalzhigitov & Zhexenov Daniyal™</a> IITU/ITSE-1908R 27686@iitu.edu.kz</p>
+
+            </div>
+          </div>
+        </div>
+
+
+<script src="Main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+{% load crispy_forms_tags %}
+ {% load static %}
+{% load widget_tweaks %}
+<html>
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Passion+One&family=Titan+One&display=swap" rel="stylesheet">
+<link href='https://fonts.googleapis.com/css?family=Saira Semi Condensed' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Sail' rel='stylesheet'>
+<link rel="stylesheet" href="C:\Users\Nur\Desktop\HTML\font-awesome-4.7.0\css\font-awesome.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>Page Title</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/bookPageStyle.css">
+<link rel="stylesheet" href="{% static 'css/bookPageStyle.css' %}">
+<link href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav style="background-color: B8680A; border-radius: 10px 10px 10px 10px;" class="navbar navbar-expand-lg navbar-light">
+        <div class="row col-12 col-sm-12 " style="padding-right: 0px;">
+            <div class="col-12 col-sm-12 col-lg-1 borderAdapt" style="background-color: rgb(255, 194, 80);">
+            <button class="navbar-toggler" style = "margin-top: 5px;" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand mt-lg-0 float-right float-sm-right flaot-lg-left"  href="#">
+                <div style="padding-right: 30%; padding-left: -20%">
+                    <img src="{% static '/image/book.png' %}" width="40" height="40" alt="BookShop">
+                </div>
+            </a>
+
+            </div>
+            <div class="col-12 col-sm-12 col-lg-11" style="padding-right: 0px;">
+                <div class="row justify-content-between collapse navbar-collapse" id="navbarTogglerDemo03" style="background-color: rgb(255, 170, 73); padding-bottom: 17px; margin-right: 0px;">
+                        <div class="col-12 col-sm-12 col-lg-5">
+                            <ul class="row col-12 col-sm-12 navbar-nav mt-lg-1" style="margin-left: 0px;">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'Main' %}"> Home </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'stores' %}"> Stores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'bestseller' %}"> Bestsellers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'new' %}"> New</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-5 " style="margin: 0px; padding: 0px;">
+                            <ul class="navbar-nav " style="margin: 0px; padding: 0px;">
+                                <div class="row col-12 col-sm-12 justify-content-end" style="margin: 0px; padding: 0px; display: inline-flex; white-space: nowrap;">
+                                    <div class="col-12 col-sm-12 col-lg-3">
+                                        {% if request.user.is_authenticated %}
+                                        <li class="nav-item row float-lg-right">
+                                            <a class="nav-link" style="margin-top: 3px;" href="{% url 'cart' %}">Cart</a>
+                                            <a class="nav-link" href="{% url 'cart' %}">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-top: 8px; color: black;"></i>
+                                                <span class="badge badge-pill badge-danger"> {{ cart.total_amount_of_products }} </span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12 col-sm-12 col-lg-4 margin: 0px; padding: 0px;" style="margin: 0px; padding: 0px;">
+                                        <li class="nav-item row float-lg-right margin: 0px; padding: 0px;" style="margin-left: 0px; margin-right: 0px;">
+                                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-top: 12px;"></i>
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 3px;">My account</a>
+                                                <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'login' %}">Log In</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'registration' %}">Register</a></button>
+                                                </div>
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:3px; background-color: EDAF66; border-radius: 20px; margin-top: 10px;">
+
+          <form action="{% url 'search' %}" method="get" class="row justify-content-start" style="margin-top: 10px; margin-left: 3px;">
+            <div class="btn-group col-1-5" style="margin: 0px; margin-left:15px; padding: 0px;">
+                <button type="button" class="col-12 btn btn-secondary dropdown-toggle buttomBorder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All </button>
+                <div class="dropdown-menu dropdown-menu-right" style="margin: 0px; padding: 0px;">
+                    <a href="{% url 'new'  %}"><button class="dropdown-item" type="button">Newly</button></a>
+                    <a href="{% url 'bestseller' %}"><button class="dropdown-item" type="button">Best-Selling</button></a>
+                    <a href="/filter/?genre=1&genre=4&genre=14&genre=22" ><button class="dropdown-item" type="button">Fiction</button></a>
+                    <a href="/filter/?genre=24"><button class="dropdown-item" type="button">History</button></a>
+                </div>
+            </div>
+          <div class="col-3 row">
+            <div class="col-9 col-sm-6" style="margin: 0px; padding: 0px;">
+            <input class="form-control" type="search" placeholder="Search" name="q" aria-label="Search">
+            </div>
+             <div  class="col-3 col-sm-6" style="margin: 0px; padding: 0px;">
+                <button class="btn btn-outline-light bg-success" type="submit">Search</button>
+             </div>
+         </div>
+        </form>
+    </div>
+
+
+
+    <section class="my-2" style="padding-bottom: 0px; padding-top: 30px; padding-right: 10px; padding-left: 10px; background-color: B8680A; border-radius: 15px; ">
+
+        <div class="header-row text-center" id="header-row" style="padding: 0px; overflow:hidden; height:100px;">
+   <div class="container-fluid" style="padding: 0px;">
+            <a class="text-center navbar-brand logo" href="Main.html" style="padding-left: 20px;">
+        <!-- place your image here -->
+                <h2 class="banner text-center" style="text-align: center; color: aliceblue;5">3десь могла быть ваша реклама</h2>
+            </a>
+   </div>
+</div>
+
+    </section>
+
+
+    <div class="col-sm-12 col-md-6 col-lg-3 text-center my-2" style="margin: 0px;  padding-top: 3px; padding-right: 10px; padding-left: 10px; background-color: B8680A; border-radius: 5px; font-family: 'Poppins', sans-serif;">
+
+          <p style="font-size: 20px;">{{book.category}}</p>
+
+    </div>
+
+    <section class="my-2" style="padding-bottom: 20px; padding-top: 20px; padding-right: 20px; padding-left: 10px; background-color: #F2F2F2;">
+
+        <div class="row" id="header-row" style="padding: 0px border-radius: 15px; overflow:hidden;">
+
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <a href="#"><img  class="img-fluid" style=" border-radius: 15px; box-shadow: 0 0 15px rgba(0,0,0,0.8); height: 700px; width: 100%;" class="" src="{{book.image.url}}"></a>
+
+                <div class="rating">
+                    <input type="radio" name="rating" value="5" id="5">
+                    <label for="5">☆</label>
+                    <input type="radio" name="rating" value="4" id="4">
+                    <label for="4">☆</label>
+                    <input type="radio" name="rating" value="3" id="3">
+                    <label for="3">☆</label>
+                    <input type="radio" name="rating" value="2" id="2">
+                    <label for="2">☆</label>
+                    <input type="radio" name="rating" value="1" id="1">
+                    <label for="1">☆</label>
+                </div>
+                {% if request.user.is_authenticated %}
+                <div class="my-3" style="margin: 0px; padding: 0px;">
+                    <a href="{% url 'add_to_cart' book.id %}"><button class="btn btn-secondary btn-lg w-100 " type="submit" style="box-shadow: 0 0 15px rgba(0,0,0,0.4);">Add to Cart</button></a>
+                </div>
+                {% endif %}
+                <div class="my-3"  style="margin: 0px; padding: 0px;">
+                    <a href="{{ book.pdf.url }}" ><button class="btn btn-warning btn-lg w-100" type="submit" style="box-shadow: 0 0 15px rgba(0,0,0,0.4);">View Promo</button></a>
+                </div>
+
+            </div>
+
+            <div class="col-sm-12 col-md-8 col-lg-8" style=" background-color: B8680A; padding: 10px; border-radius: 15px;">
+
+                <div class="my-2 mx-2" >
+                    <h2 style="margin-top: 25px; font-family: 'Poppins', sans-serif;">{{book.name}}</h2>
+                </div>
+
+                <hr>
+
+                <div>
+                    <p style="font-size: 20px; font-family: 'Poppins', sans-serif;" class="mx-4">
+                        Price - {{book.money}}
+                        <br>
+                        Count - {{book.stock}}
+                    </p>
+                    <p style="font-size: 20px; font-family: 'Poppins', sans-serif;" class="mx-4">
+                        {% for author in book.authors.all %}
+                            {{author.name}}
+                        {% endfor %}
+                        <br>
+                        {{book.category}}
+                    </p>
+                    <p style="font-size: 20px; font-family: 'Poppins', sans-serif;" class="mx-4">
+                        {% for genre in book.genres.all %}
+                            {{genre.name}}
+
+                        {% endfor %}
+                        <br>
+                        {{book.page}}
+                        <br>
+                        {{book.binding}}
+                        <br>
+                        {{book.year}}
+                    </p>
+                </div>
+
+                <hr>
+
+                <div class="scroll-container" style="height: 550px;">
+                    <p style="font-size: 20px; font-family: 'Poppins', sans-serif;" class="mx-4">
+                        {{book.description}}
+                    </p>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+     <section class="my-3" style="padding-bottom: 0px; padding-top: 20px; padding-right: 10px; padding-left: 10px; background-color: B8680A;">
+
+       <div class="row">
+
+
+                <div id="map-container-google-1" class="col-sm-12 col-md-6 col-lg-8 z-depth-1-half map-container" style="height: 320px;">
+                    <iframe style="width: 100%; height: 300px;" src="https://maps.google.com/maps?q=manhatan&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen ></iframe>
+                </div>
+
+
+
+           <div class="col-sm-12 col-md-6 col-lg-4" style="padding-right: 10px;">
+
+                    <form>
+
+                        <div class="my-2" style="height: 50px; width: 400px;">
+                        <input type="text" class="form-control" id="inputAddress" placeholder="Email">
+                        </div>
+
+                        <div class="my-2" style="height: 50px; width: 400px;">
+                          <input type="email" class="form-control" id="inputEmail4" placeholder="Type of Issue">
+                        </div>
+
+                      <div class="form-row my-2">
+                        <div class=" form-group shadow-textarea mx-1" style="height: 30px; width: 400px;">
+                          <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Text"></textarea>
+                        </div>
+                      </div>
+
+                      <button type="submit" class="btn btn-light my-5">Contact us</button>
+                    </form>
+                </div>
+           </div>
+
+
+    </section>
+
+
+
+
+<div class="" style="background-color: B8680A; padding-right: 40px;padding-left: 40px; padding-top: 40px;">
+          <div class="row footer-row" style="padding: 20px; background-color: rgb(255, 170, 73); border-radius: 10px;">
+
+      <ul class="col-sm-12 col-md-3 firstMenu">
+        <li class="footerHeading">Customer Service</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Contact Us</a></li>
+
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Store Policies &amp; Info</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Returns</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">FAQs</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Privacy Policy</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Security</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Helpful Links</li>
+        <li class="navodka"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="navodka"><a href="{% url 'about' %}">General Info</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <a href="https://dashboard.stripe.com/test/dashboard"><li class="footerHeading" style="margin-bottom: 10px;">Payment Methods</li></a>
+        <li><div class="payment-methods-wrap">
+      <div class="cards-accepted">
+        <span id="payment-method-images3" class="cardname amex">
+            <a href="https://dashboard.stripe.com/test/dashboard"><img src="{% static '/MainImage/stripe.png' %}" class="" style="height: 30px; width: 50px;"></a>
+        </span>
+      </div>
+    </div></li>
+      </ul>
+      <div class="clearfix"></div>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="copyright-row" style="padding: 15px;">
+            <div class="copyright">
+
+              <p style="text-align: center;" class="navodkaSpecial">Powered By Me <a href="#" target="_blank" class="">Nurbol Kalzhigitov & Zhexenov Daniyal™</a> IITU/ITSE-1908R 27686@iitu.edu.kz</p>
+
+            </div>
+          </div>
+        </div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="Main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

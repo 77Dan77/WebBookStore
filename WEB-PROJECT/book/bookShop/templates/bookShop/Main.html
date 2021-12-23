@@ -1,0 +1,353 @@
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Saira Semi Condensed' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Sail' rel='stylesheet'>
+<link rel="stylesheet" href="C:\Users\Nur\Desktop\HTML\font-awesome-4.7.0\css\font-awesome.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>{% block title %} Main {% endblock title%}</title>
+    {% load static %}
+    <link href="{% static 'css/Main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+    <nav style="background-color: B8680A; border-radius: 10px 10px 10px 10px;" class="navbar navbar-expand-lg navbar-light">
+        <div class="row col-12 col-sm-12 " style="padding-right: 0px;">
+            <div class="col-12 col-sm-12 col-lg-1 borderAdapt" style="background-color: rgb(255, 194, 80);">
+            <button class="navbar-toggler" style = "margin-top: 5px;" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand mt-lg-0 float-right float-sm-right flaot-lg-left"  href="#">
+                <div style="padding-right: 30%; padding-left: -20%">
+                    <img src="{% static '/image/book.png' %}" width="40" height="40" alt="BookShop">
+                </div>
+            </a>
+
+            </div>
+            <div class="col-12 col-sm-12 col-lg-11" style="padding-right: 0px;">
+                <div class="row justify-content-between collapse navbar-collapse" id="navbarTogglerDemo03" style="background-color: rgb(255, 170, 73); padding-bottom: 17px; margin-right: 0px;">
+                        <div class="col-12 col-sm-12 col-lg-5">
+                            <ul class="row col-12 col-sm-12 navbar-nav mt-lg-1" style="margin-left: 0px;">
+                                <li class="nav-item active ">
+                                    <a class="nav-link" href="{% url 'Main' %}"> Home <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'stores' %}"> Stores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'bestseller' %}"> Bestsellers</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'new' %}"> New</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-12 col-sm-12 col-lg-5 " style="margin: 0px; padding: 0px;">
+                            <ul class="navbar-nav " style="margin: 0px; padding: 0px;">
+                                <div class="row col-12 col-sm-12 justify-content-end" style="margin: 0px; padding: 0px; display: inline-flex; white-space: nowrap;">
+                                    <div class="col-12 col-sm-12 col-lg-3">
+                                        {% if request.user.is_authenticated %}
+                                        <li class="nav-item row float-lg-right">
+                                            <a class="nav-link" style="margin-top: 3px;" href="{% url 'cart' %}">Cart</a>
+                                            <a class="nav-link" href="{% url 'cart' %}">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-top: 8px; color: black;"></i>
+                                                <span class="badge badge-pill badge-danger"> {{ cart.total_amount_of_products }} </span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-12 col-sm-12 col-lg-4 margin: 0px; padding: 0px;" style="margin: 0px; padding: 0px;">
+                                        <li class="nav-item row float-lg-right margin: 0px; padding: 0px;" style="margin-left: 0px; margin-right: 0px;">
+                                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-top: 12px;"></i>
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 3px;">My account</a>
+
+                                            {% if request.user.is_authenticated %}
+
+                                            <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="#">{{ request.user.username}}</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'logout' %}">LogOut</a></button>
+                                                </div>
+                                            {% else %}
+                                                <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'login' %}">Log In</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'registration' %}">Register</a></button>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div style="padding:3px; background-color: EDAF66; border-radius: 20px; margin-top: 10px;">
+          <form action="{% url 'search' %}" method="get" class="row justify-content-start" style="margin-top: 10px; margin-left: 3px;">
+            <div class="btn-group col-1-5" style="margin: 0px; margin-left:15px; padding: 0px;">
+                <button type="button" class="col-12 btn btn-secondary dropdown-toggle buttomBorder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All </button>
+                <div class="dropdown-menu dropdown-menu-right" style="margin: 0px; padding: 0px;">
+                    <a href="{% url 'new'  %}"><button class="dropdown-item" type="button">Newly</button></a>
+                    <a href="{% url 'bestseller' %}"><button class="dropdown-item" type="button">Best-Selling</button></a>
+                    <a href="/filter/?genre=1&genre=4&genre=14&genre=22" ><button class="dropdown-item" type="button">Fiction</button></a>
+                    <a href="/filter/?genre=24"><button class="dropdown-item" type="button">History</button></a>
+                </div>
+            </div>
+          <div class="col-3 row">
+            <div class="col-9 col-sm-6" style="margin: 0px; padding: 0px;">
+            <input class="form-control" type="search" placeholder="Search" name="q" aria-label="Search">
+            </div>
+             <div  class="col-3 col-sm-6" style="margin: 0px; padding: 0px;">
+                <button class="btn btn-outline-light bg-success" type="submit">Search</button>
+             </div>
+         </div>
+        </form>
+    </div>
+
+    <div class="row" >
+        <div class="col-12 col-sm-12 boxImage mt-2" >
+            <img src="{% static '/image/NewBook.jpeg' %}" class="pictures" width="1920" height="220" alt="BookShop">
+        </div>
+    </div>
+
+    <div class="row justify-content-between" style="margin: 0px; padding: 0px;">
+        <div class="row col-12 col-sm-12 justify-content-between boxImage" style="margin: 0px; padding: 0px;">
+            <h2 style="letter-spacing:.1em;">Newly Added!</h2>
+            <button class="btn btn-outline-light bg-success" type="submit"><a style="text-decoration: none; color: white;" href="{% url 'new'  %}">View All</a></button>
+        </div>
+    </div>
+
+    <section class="my-2" style="padding-bottom: 0px; padding-top: 20px; padding-right: 10px; padding-left: 10px; background-color: B8680A;">
+            <div id="carouselSixColumn" class="carousel slide" data-ride="carousel">
+              <ol class="carousel-indicators">
+                <li data-target="#carouselSixColumn" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselSixColumn" data-slide-to="1"></li>
+                <li data-target="#carouselSixColumn" data-slide-to="2"></li>
+              </ol>
+              <div class="carousel-inner" style="background-color: rgb(255, 170, 73); border-radius: 20px;">
+
+                  <div class="carousel-item active">
+                    <div class="row" style="margin-left: 15px;">
+                    {% for book in book_list_First %}
+                      <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                        <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row" style="margin-left: 15px;">
+
+                    {% for book in book_list_Second %}
+                      <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                        <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                        </div>
+                      </div>
+                    {% endfor %}
+                      </div>
+                </div>
+
+                <div class="carousel-item">
+                    <div class="row" style="margin-left: 15px;">
+
+                    {% for book in book_list_Third %}
+                      <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                        <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                        </div>
+                      </div>
+                    {% endfor %}
+                      </div>
+                </div>
+
+              </div>
+              <a class="carousel-control-prev" href="#carouselSixColumn" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselSixColumn" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+            </div>
+            <br>
+            <br>
+        </section>
+
+       <div class="row justify-content-between" style="margin: 0px; padding: 0px; margin-top: 20px;">
+          <div class="row col-12 col-sm-12 justify-content-between boxImage" style="margin: 0px; padding: 0px;">
+              <h2 style="letter-spacing:.1em;">Best-Selling</h2>
+              <button class="btn btn-outline-light bg-success" type="submit"><a style="text-decoration: none; color: white;" href="{% url 'bestseller' %}">View All</a></button>
+          </div>
+      </div>
+
+        <section class="my-2" style="padding-bottom: 0px; padding-top: 20px; padding-right: 10px; padding-left: 10px; background-color: B8680A;">
+          <div style="margin:0px; padding:0px">
+
+            <div class="" style="background-color: rgb(255, 170, 73); border-radius: 20px;">
+              <div style="padding-bottom:0px">
+                  <div class="row" style="margin-left: 15px; padding-bottom: 10px;">
+                  {% for book in book_Best %}
+                    <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                      <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                      </div>
+                    </div>
+                  {% endfor %}
+<!--                  {% widthratio book_Best|length|add:"-7" 1 -1 %}-->
+                  {% if book_Best.list|length > 7 %}
+                      {% with 'widthratio book_Best|length|add:"-7" 1 -1}' as range %}
+                      {% for _ in range %}
+                      <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                          <div class="card">
+                             <img src="{% static '/MainImage/Maddness.jpg' %}" class="w-150" style="height: 291px; width: 197px">
+                          </div>
+                        </div>
+                      {% endfor %}
+                      {% endwith %}
+                  {% endif %}
+
+
+                  </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+      </section>
+
+
+      <div class="row justify-content-between" style="margin: 0px; padding: 0px; margin-top: 20px;">
+        <div class="row col-12 col-sm-12 justify-content-between boxImage" style="margin: 0px; padding: 0px;">
+            <h2 style="letter-spacing:.1em;">Fiction</h2>
+            <a href="/filter/?genre=1&genre=4&genre=14&genre=22"><button class="btn btn-outline-light bg-success" type="submit"><a style="text-decoration: none; color: white;" href="/filter/?genre=1&genre=4&genre=14&genre=22">View All</a></button></a>
+        </div>
+    </div>
+
+      <section class="my-2" style="padding-bottom: 0px; padding-top: 20px; padding-right: 10px; padding-left: 10px; background-color: B8680A;">
+        <div style="margin:0px; padding:0px">
+
+          <div class="" style="background-color: rgb(255, 170, 73); border-radius: 20px;">
+            <div style="padding-bottom:0px">
+                <div class="row" style="margin-left: 15px; padding-bottom: 10px;">
+                  {% for book in book_Fiction %}
+                    <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                      <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+    </section>
+
+
+
+    <div class="row justify-content-between" style="margin: 0px; padding: 0px; margin-top: 20px;">
+      <div class="row col-12 col-sm-12 justify-content-between boxImage" style="margin: 0px; padding: 0px;">
+          <h2 style="letter-spacing:.1em;">Science</h2>
+          <button class="btn btn-outline-light bg-success" type="submit"><a style="text-decoration: none; color: white;" href="/filter/?genre=19">View All</a></button>
+      </div>
+  </div>
+
+    <section class="my-2" style="padding-bottom: 0px; padding-top: 20px; padding-right: 10px; padding-left: 10px; background-color: B8680A;">
+      <div style="margin:0px; padding:0px">
+
+        <div class="" style="background-color: rgb(255, 170, 73); border-radius: 20px;">
+          <div style="padding-bottom:0px">
+              <div class="row" style="margin-left: 15px; padding-bottom: 10px;">
+                  {% for book in book_Westerns %}
+                   <div class="col-md-1-5 p-2" style="margin-left: -2px;">
+                      <div class="card">
+                            <a href="{{ book.get_absolute_url }}">
+                                <img src="{{book.image.url}}" class="w-150" style="height: 291px; width: 197px">
+                            </a>
+                      </div>
+                    </div>
+                  {% endfor %}
+              </div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+  </section>
+
+
+
+<div class="" style="background-color: B8680A; padding-right: 40px;padding-left: 40px; padding-top: 40px;">
+          <div class="row footer-row" style="padding: 20px; background-color: rgb(255, 170, 73); border-radius: 10px;">
+
+      <ul class="col-sm-12 col-md-3 firstMenu">
+        <li class="footerHeading">Customer Service</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Contact Us</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Store Policies &amp; Info</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Returns</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">FAQs</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Privacy Policy</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Security</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Helpful Links</li>
+        <li class="navodka"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="navodka"><a href="{% url 'about' %}">General Info</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <a href="https://dashboard.stripe.com/test/dashboard"><li class="footerHeading" style="margin-bottom: 10px;">Payment Methods</li></a>
+        <li><div class="payment-methods-wrap">
+      <div class="cards-accepted">
+        <span id="payment-method-images3" class="cardname amex">
+            <a href="https://dashboard.stripe.com/test/dashboard"><img src="{% static '/MainImage/stripe.png' %}" class="" style="height: 30px; width: 50px;"></a>
+        </span>
+      </div>
+    </div></li>
+      </ul>
+      <div class="clearfix"></div>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="copyright-row" style="padding: 15px;">
+            <div class="copyright">
+
+              <p style="text-align: center;" class="navodkaSpecial">Powered By Me <a href="#" target="_blank" class="">Nurbol Kalzhigitov & Zhexenov Daniyal™</a> IITU/ITSE-1908R 27686@iitu.edu.kz</p>
+
+            </div>
+          </div>
+        </div>
+
+
+<script src="{% static 'js/filter.js' %}"></script>
+<script src="https://github.com/twitter/hogan.js/web/builds/3.0.1/hogan-3.0.1.js"></script>
+<script src="Main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

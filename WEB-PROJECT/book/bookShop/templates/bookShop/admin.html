@@ -1,0 +1,126 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta token={{ csrf_token }} class="csrf_token">
+    <link rel="stylesheet" href="{% static 'css/materialize.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab Work #2</title>
+</head>
+
+<body>
+    <div class="header white-text center-align">
+        <h1 style="display: inline; color: black; opacity: 0.7;">Welcome, {{user.first_name}}</h1>
+
+    </div>
+
+    {% if msg %}
+    <div class="container center-align black-text">
+      <h1 style="display: inline; color: white; opacity: 0.7;"  class="center-align">{{msg}}</h1>
+    </div>
+    {% else %}
+
+    <div class="background">
+      <div class="inner-canvas" style="padding: 2% 3% 2% 3%; min-height: 750px">
+        <h4 class="white-text"></h4>
+        <div class="row">
+          {% if users %}
+          <div class="col s12 m12 l12">
+            <ul
+              class="collapsible"
+              style="border: 0px transparent black !important; outline: none">
+              <li
+                style="border: 0px transparent black !important; outline: none">
+                <div
+                  class="
+
+                    thin-writing
+                    element-header
+                    center-align" style="font-weight:bold; margin-top: 10px; opacity: 0.7;" >
+                  Users
+                </div>
+                <div class=" black-text thin-writing">
+                  <div class="" style="opacity: 0.7;" >
+                    {% for userEntity in users %}
+                    <div class="" user_id="{{userEntity.id}}" style="margin-left: 20px; margin-right: 20px;">
+                      {{userEntity.first_name}} {{userEntity.last_name}}
+
+                     <a href="#" style="margin-left: 10px;" class="custom-btn-red right black-text user-deleting-btn"
+                        >Delete</a>
+                      <a href="#user-details"  style="margin-left: 10px;" class="custom-btn-green right black-text user-update-btn modal-trigger"
+                        >Update </a>
+                      <a href="#user-details" style="margin-left: 10px;" class="custom-btn-blue right black-text user-details-btn modal-trigger"
+                        >Info </a>
+                    </div>
+                    <hr />
+                    {% endfor %}
+                        <div class="center-align">
+                         <a href="#user-details" class="modal-trigger custom-btn black-text user-creation-btn">Add user</a>
+                      </div>
+                     </div>
+                 </div>
+            </li>
+            </ul>
+    </div>
+    {% endif %}
+
+
+    <div id="user-details" class="modal white-text" style="max-height: 100%; overflow: visible;">
+        <div class="modal-content center-align container">
+            <h4 class="black-text modal-user-header" style="opacity: 0.6;">User</h4>
+            <div class="row">
+                <div class="col s12 m12">
+                    <label for="">First name</label>
+                    <input class="user-info-field grey-text center-align first_name" type="text" disabled value="Nurbol">
+                </div> </br>
+                <div class="col s12 m12">
+                    <label for="">Last name</label>
+                    <input class="user-info-field grey-text center-align last_name" type="text" disabled value="Kalzhigitov">
+                </div>
+                <div class="col s12 m12">
+                    <label for="">Username</label>
+                    <input class="user-info-field grey-text center-align username" type="text" disabled value="2021.21.41">
+                </div>
+                <div class="col s12 m12">
+                    <label for="">Email</label>
+                    <input class="user-info-field grey-text center-align email" type="text" disabled value="2021.21.41">
+                </div>
+                <div class="col s12 m12">
+                    <label for="">Password</label>
+                    <input class="user-info-field grey-text center-align password" type="text" disabled value="2021.21.41">
+                </div>
+                <button class="green btn white-text update-allowing-btn functionality-btn">UPDATE</button>
+
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <script src="{% static 'js/adminUtils.js' %}"></script>
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script src="{% static 'js/adminWindow.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var elems = document.querySelectorAll(".sidenav");
+            var options = {};
+            var instances = M.Sidenav.init(elems, options);
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var elems = document.querySelectorAll(".collapsible");
+            var options = {};
+            var instances = M.Collapsible.init(elems, options);
+        });
+    </script>
+</body>
+
+</html>

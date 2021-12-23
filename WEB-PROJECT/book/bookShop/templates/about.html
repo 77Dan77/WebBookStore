@@ -1,0 +1,410 @@
+{% load static %}
+<html>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Saira Semi Condensed' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Sail' rel='stylesheet'>
+<link rel="stylesheet" href="C:\Users\Nur\Desktop\HTML\font-awesome-4.7.0\css\font-awesome.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<title>{% block title %} title {% endblock title%}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Stores.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{% static 'css/About.css' %}">
+    <link href="{% static 'css/font-awesome-4.7.0/css/font-awesome.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <nav style="background-color: B8680A; border-radius: 10px 10px 10px 10px;" class="navbar navbar-expand-lg navbar-light">
+        <div class="row col-12 col-sm-12 " style="padding-right: 0px;">
+            <div class="col-12 col-sm-12 col-lg-1 borderAdapt" style="background-color: rgb(255, 194, 80);">
+            <button class="navbar-toggler" style = "margin-top: 5px;" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <a class="navbar-brand mt-lg-0 float-right float-sm-right flaot-lg-left"  href="#">
+                <div style="padding-right: 30%; padding-left: -20%">
+                    <img src="{% static '/image/book.png' %}" width="40" height="40" alt="BookShop">
+                </div>
+            </a>
+
+            </div>
+            <div class="col-12 col-sm-12 col-lg-11" style="padding-right: 0px;">
+                <div class="row justify-content-between collapse navbar-collapse" id="navbarTogglerDemo03" style="background-color: rgb(255, 170, 73); padding-bottom: 17px; margin-right: 0px;">
+
+                        <div class="col-12 col-sm-12 col-lg-5">
+                            <ul class="row col-12 col-sm-12 navbar-nav mt-lg-1" style="margin-left: 0px;">
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'Main' %}"> Home </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'stores' %}"> Stores </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" href="{% url 'bestseller' %}"> Bestsellers</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link text-light" href="{% url 'new' %}"> New</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-12 col-sm-12 col-lg-5 " style="margin: 0px; padding: 0px;">
+                            <ul class="navbar-nav " style="margin: 0px; padding: 0px;">
+                                <div class="row col-12 col-sm-12 justify-content-end" style="margin: 0px; padding: 0px; display: inline-flex; white-space: nowrap;">
+                                    <div class="col-12 col-sm-12 col-lg-3">
+                                        {% if request.user.is_authenticated %}
+                                        <li class="nav-item row float-lg-right">
+                                            <a class="nav-link" style="margin-top: 3px;" href="{% url 'cart' %}">Cart</a>
+                                            <a class="nav-link" href="{% url 'cart' %}">
+                                                <i class="fa fa-shopping-cart" aria-hidden="true" style="margin-top: 8px; color: black;"></i>
+                                                <span class="badge badge-pill badge-danger"> {{ cart.total_amount_of_products }} </span>
+                                            </a>
+                                        </li>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="col-12 col-sm-12 col-lg-4 margin: 0px; padding: 0px;" style="margin: 0px; padding: 0px;">
+                                        <li class="nav-item row float-lg-right margin: 0px; padding: 0px;" style="margin-left: 0px; margin-right: 0px;">
+                                                <i class="fa fa-user-circle" aria-hidden="true" style="margin-top: 12px;"></i>
+                                                <a class="nav-link dropdown-toggle" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 3px;">My account</a>
+
+                                            {% if request.user.is_authenticated %}
+
+                                            <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="#">{{ request.user.username}}</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'logout' %}">LogOut</a></button>
+                                                </div>
+                                            {% else %}
+                                                <div class="dropdown-menu dropdown-menu-right margin: 0px; padding: 0px;">
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'login' %}">Log In</a></button>
+                                                    <button class="dropdown-item" type="button"><a style="text-decoration: none; color: #000;" href="{% url 'registration' %}">Register</a></button>
+                                                </div>
+                                            {% endif %}
+                                        </li>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="main" style="background-color: rgb(255, 210, 159);">
+        <div id="wrapper" data-hook="">
+
+
+          <div id="content" class="columns sixteen" data-hook="">
+            <div class="flash-messages">
+
+            </div>
+            <div class="about-page">
+
+    <section class="grid gap-4 mb-12 container" style="padding-bottom: 0px;">
+      <h1 style="margin-bottom: 20px;">Welcome to Bookshop!</h1>
+      <div>
+        Bookshop is an online bookstore with a mission to financially support local, independent bookstores.
+      </div>
+      <div>
+        We believe that bookstores are essential to a healthy culture. They’re where authors can connect with readers,
+        where we discover new writers, where children get hooked on the thrill of reading that can last a lifetime.
+        They’re also anchors for our downtowns and communities.
+      </div>
+      <div>
+        As more and more people buy their books online, we wanted to create an easy, convenient way for you to get your
+        books and support bookstores at the same time.
+      </div>
+      <div>
+        If you want to find a specific local bookstore to support,
+        <a href="/pages/store_locator" class="hotlink">find them on our map</a> and they’ll receive the full profit off
+        your order. Otherwise, your order will contribute to an earnings pool that will be evenly distributed among
+        independent bookstores (even those that don’t use Bookshop).
+      </div>
+      <div>
+        We also support anyone who advocates for books through our
+        <a href="/affiliates/profile/introduction" class="hotlink">affiliate program</a>, which pays a 10% commission on
+        every sale, and gives a matching 10% to independent bookstores. If you are an author, a website or magazine, have
+        a bookclub, an organization that wants to recommend books, or even just a book-lover with an Instagram feed, you
+        can sign up to be an affiliate, start your own shop, and be rewarded for your advocacy of books. Bookshop wants to
+        give back to everyone who promotes books, authors, and independent bookstores!
+      </div>
+      <div>
+        By design, we give away over 75% of our profit margin to stores, publications, authors and others who make up the
+        thriving, inspirational culture around books!
+      </div>
+      <div>
+        We hope that Bookshop can help strengthen the fragile ecosystem and margins around bookselling and keep local
+        bookstores an integral part of our culture and communities.
+      </div>
+      <div>Bookshop is a benefit corporation - a corporation dedicated to the public good.</div>
+    </section>
+    </section>
+    <section class="faq container">
+      <h2 style="text-align: center; margin-bottom: 20px; font-size: 40px;">FAQ:</h2>
+      <h3>Do you ship to Canada or Internationally?</h3>
+      <p>Bookshop.org only ships to the US,
+        but we do have <a href="https://uk.bookshop.org" class="hotlink">Bookshop UK</a> and
+        <a href="https://es.bookshop.org" class="hotlink">Bookshop Spain</a> available for those regions.
+      </p>
+      <p>We do hope to help support bookstores all over the world in the future.</p>
+      <h3>How do I report a problem with the website or my order?</h3>
+      <p>
+        <a href="javascript: void(0);" class="fd-contact-us hotlink ">Contact Us</a>
+      </p>
+      <h3>How do I return an order?</h3>
+      <div>
+        If you have received damaged, defective, or incorrectly shipped merchandise you may return it within 14 days of
+        the delivery date for a full refund of the cost of the books returned including initial shipping costs. To ensure
+        your package is returned correctly please include the return slip included at the bottom of your paper receipt.
+        Return the package to the address indicated below and include and display the order number prominently on the slip
+        and the packaging. Return postage is to be covered by the sender. If you have any further questions regarding your
+        return please reach out to:
+        <a href="mailto:bookshop@bookshop.org" class="hotlink">bookshop@bookshop.org</a>.
+        <address class="not-italic pl-16 pt-2">
+          <b>Mail to:</b>
+          <h6>Bookshop LLC</h6>
+          <h6>Ingram Customer Returns Center</h6>
+          <h6>1210 Ingram Drive</h6>
+          <h6>Chambersburg, PA 17202</h6>
+        </address>
+      </div>
+      <h3>How does Bookshop work with independent bookstores?</h3>
+      <p>
+        Bookshop supports indies in two ways: 10% of regular sales on Bookshop.org are added to an earnings pool that is
+        evenly divided and distributed to independent bookstores every six months.
+      </p>
+      <p>
+        Stores that are affiliates, who sell books online using Bookshop (by sharing links their Bookshop link on social
+        media, email newsletters, or on their websites) earn 30% of the cover price on any sales they generate, without
+        having to do the work of keeping inventory, picking, packing, shipping or handling complaints and returns. (30% of
+        the cover price is the entire profit margin - Bookshop doesn’t earn money off bookstore sales, all profits go to
+        the store.)
+      </p>
+      <p>
+        All orders are fulfilled through Ingram.
+      </p>
+      <h3>How does Bookshop promote local bookstores?</h3>
+      <p>
+        Every receipt we email customers informs them about the bookstores near them.
+      </p>
+      <p>
+        If a Bookshop customer opts in, their local bookstore will be given their email address for direct marketing.
+      </p>
+      <p>
+        Affiliate stores can create recommendation lists (staff picks, etc) on Bookshop, boosting their visibility and
+        earning a commission on every sale generated from the list.
+      </p>
+      <h3>If I’m an affiliate, do I have to disclose that on my website, newsletter or social media posts?</h3>
+      <p>
+        Yes. Whenever a link is used on your website that results in a commission, you must disclose this information to
+        site visitors, according to FTC rules. We suggest adding something like: “Disclosure: I am an affiliate of
+        Bookshop.org and I will earn a commission if you click through and make a purchase.” to your website or post.
+      </p>
+      <h3>If I'm an affiliate, how are the sales of my books handled?</h3>
+      <p>
+        Affiliates do not have to handle inventory, fulfillment, shipping, or customer service. All book sales are
+        fulfilled by Ingram. Ingram’s extensive inventory and regional warehouse system ensures Bookshop that books can
+        reach customers in as soon as 2-3 days.
+      </p>
+      <h3>How do I get paid for the books that sell, how much will you pay me, and when will you pay it?</h3>
+      <p>
+        Affiliates can withdraw their revenue whenever they like via an easy web interface, provided they have a balance
+        of $20 or more.
+      </p>
+      <p>
+        Bookstores participating in the revenue share will receive payments every six months. The revenue share will be
+        divided equally among partners.
+      </p>
+      <h3>What kind of reporting will I receive, and how frequently?</h3>
+      <p>
+        Affiliates will be able to get reporting and see their sales activity at any time on their dashboard on our
+        website, or download the transactions.
+      </p>
+      <h3>How do I set up an account?</h3>
+      <p>
+        Anyone can create an account at
+        <a href="https://bookshop.org/affiliates/profile/introduction" class="hotlink">
+          https://bookshop.org/affiliates/profile/introduction
+        </a>
+      </p>
+      <h3>How do I advertise or promote a book on Bookshop?</h3>
+      <p>Email us at <a href="mailto:ads@bookshop.org" class="hotlink">ads@bookshop.org</a></p>
+      <h3>FAQ for Bookstores:</h3>
+      <p>
+        Bookstores with physical locations who are ABA members qualify for our Platform Seller program and can be added to
+        our bookstore finder map, receive a 30% commission on sales, and receive customer order information. Please email
+        Sarah at <a href="mailto:sarah.high@bookshop.org" class="hotlink">sarah.high@bookshop.org</a> if you qualify.
+      </p>
+      <h3>
+        Can Bookshop take the place of my store’s website?
+      </h3>
+      <p>
+        If you’d like to have a website that features: event listings and ticketings, signed pre-order campaigns, custom
+        merch, in-store pickup, etc. we recommend setting up a website through the ABA (IndieLite or IndieCommerce).
+      </p>
+      <p>
+        Any bookstore that wants to use Bookshop as a simple page to sell books online can do so.
+      </p>
+      <p>
+        Bookshop pages are free!
+      </p>
+      <p>
+        Bookshop pages allow you to sell books and earn 30% of the cover price without worrying about inventory,
+        fulfillment, shipping, returns, or customer service.
+      </p>
+      <p>
+        Bookshop pages feature your short bio section, social media profiles, and a series of book lists curated by your
+        store.
+      </p>
+      <h3>
+        Is Bookshop replacing the ABA’s IndieCommerce and IndieLite sites?
+      </h3>
+      <p>
+        Nope! IndieCommerce and IndieLite are not going away. Think of Bookshop as “IndieLiteLite,” a free, less
+        customizable online storefront that requires no technical knowledge or investment. Stores happy with their online
+        sites should choose whichever ecommerce site works best for them. Of course you may use Bookshop in addition to
+        whichever online site you’re using.
+      </p>
+      <h3>
+        Why does Bookshop discount books?
+      </h3>
+      <p>
+        We are experimenting with discounting. If we find discounts are necessary to be a viable alternative for our
+        customers, we may discount books. But to minimize the price difference between in-store purchases and online
+        purchases, we will keep the discounts to 10% and under. And if we discover our customers are willing to shop
+        without discounts, we may stop discounting! For now, we need the option as we A/B test and improve the platform.
+      </p>
+      <h3>
+        Will Bookshop share customer info with affiliates?
+      </h3>
+      <p>
+        For bookstores who use Bookshop to sell books, yes, unless the customer opts-out. We consider them your customers,
+        and every sale generated through your store’s affiliate links will be made available to you. For normal
+        affiliates, the answer is no, due to respect for our customer’s privacy.
+      </p>
+      <h3>
+        How is Bookshop targeting online customers?
+      </h3>
+      <p>
+        Bookshop is designed for generating affiliate revenue. Our team is working to build a network of publishers,
+        authors, bookstagrammers, celebrity book clubs, and other media sites to target socially-conscious online
+        consumers who are not yet buying their books online through an independent bookstore.
+      </p>
+      <p>
+        Bookshop’s interface and purchase process is designed to be as convenient, streamlined, and user-friendly as
+        possible, for an alternative that is just as easy as our competitors.
+      </p>
+      <h3>
+        Do I need to provide my bank details?
+      </h3>
+      <p>
+        If you’re an affiliate, whenever you want to withdraw funds, you can enter your bank details and Bookshop will
+        allow you to transfer your funds at any time. Stores participating in the 10% revenue share pool will receive
+        checks in the mail every six months, no need to share any info other than your name and address.
+      </p>
+      <h3>
+        How do I list our store’s books with Bookshop’s platform?
+      </h3>
+      <p>
+        Any books in Ingram’s inventory will automatically be listed when we launch. Specialty books and products that are
+        not included in Ingram’s catalog may be added as we develop the platform in the future.
+      </p>
+      <h3>
+        Will you sell audiobooks and or ebooks?
+      </h3>
+      <p>
+        We sell ebooks via a partnership with Hummingbird - you can see the ebook links on any book product page. We will
+        start selling audiobooks through a partnership with Libro.fm by the end of April, 2020.
+      </p>
+      <h3>
+        What will the shipping packaging from Bookshop look like?
+      </h3>
+      <p>
+        Books shipped from Bookshop will arrive in simple packaging.
+      </p>
+      <h3>
+        One of my customers wants a title not in the catalog. How can I get it on my storefront?
+      </h3>
+      <p>
+        At launch, we will be limited to the books in Ingram’s catalog. By the end of 2020, we expect to have other
+        partnerships and features in place that will allow us to carry materials, such as used books, and other specialty
+        books and products that are not in Ingram’s inventory.
+      </p>
+      <h3>
+        Does Bookshop allow for in-store pickup?
+      </h3>
+      <p>
+        Bookshop will not feature in-store pickup. Stores wishing to have in-store pickup may look to IndieCommerce or
+        IndieLite website options.
+      </p>
+      <h3>
+        How do authors get paid? How much money does Bookshop keep? If Bookshop is giving 30% of a sale to a bookstore
+        affiliate, what about the remaining 70%?
+      </h3>
+      <p>
+        Bookshop doesn't make a profit off our Bookstore affiliate sales; we make a small percentage on all other sales.
+        The publisher is generally paid about 50% of a book's sale price, and the publisher pays the author. About 20%
+        goes to our customer discount, payment processing, and fulfillment costs.
+      </p>
+      <h3>
+        If my question isn’t answered here?
+      </h3>
+      <p>
+        <a href="javascript: void(0);" class="fd-contact-us hotlink ">Ask us a question.</a>
+      </p>
+    </section>
+  </div>
+
+</main>
+
+
+<div class="" style="background-color: B8680A; padding-right: 40px;padding-left: 40px; padding-top: 40px;">
+          <div class="row footer-row" style="padding: 20px; background-color: rgb(255, 170, 73); border-radius: 10px;">
+
+      <ul class="col-sm-12 col-md-3 firstMenu">
+        <li class="footerHeading">Customer Service</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Contact Us</a></li>
+
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Store Policies &amp; Info</li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Returns</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">FAQs</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Privacy Policy</a></li>
+        <li class="navodka"><a rel="nofollow" href="{% url 'about' %}">Security</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <li class="footerHeading">Helpful Links</li>
+        <li class="navodka"><a href="{% url 'about' %}">About Us</a></li>
+        <li class="navodka"><a href="{% url 'about' %}">General Info</a></li>
+      </ul>
+      <ul class="col-sm-12 col-md-3">
+        <a href="https://dashboard.stripe.com/test/dashboard"><li class="footerHeading" style="margin-bottom: 10px;">Payment Methods</li></a>
+        <li><div class="payment-methods-wrap">
+      <div class="cards-accepted">
+        <span id="payment-method-images3" class="cardname amex">
+            <a href="https://dashboard.stripe.com/test/dashboard"><img src="{% static '/MainImage/stripe.png' %}" class="" style="height: 30px; width: 50px;"></a>
+        </span>
+      </div>
+    </div></li>
+      </ul>
+      <div class="clearfix"></div>
+
+            <div class="clearfix"></div>
+          </div>
+          <div class="copyright-row" style="padding: 15px;">
+            <div class="copyright">
+
+              <p style="text-align: center;" class="navodkaSpecial">Powered By Me <a href="#" target="_blank" class="">Nurbol Kalzhigitov & Zhexenov Daniyal™</a> IITU/ITSE-1908R 27686@iitu.edu.kz</p>
+
+            </div>
+          </div>
+        </div>
+<script src="Main.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

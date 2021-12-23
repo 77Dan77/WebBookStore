@@ -1,0 +1,220 @@
+{% extends 'bookShop/base.html' %}
+{% load static %}
+
+{% block title %} Sorted {% endblock title %}
+
+{% block navbar %}
+<div class="col-12 col-sm-12 col-lg-5">
+    <ul class="row col-12 col-sm-12 navbar-nav mt-lg-1" style="margin-left: 0px;">
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'Main' %}"> Home </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="{% url 'stores' %}"> Stores <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-light" href="{% url 'bestseller' %}"> Bestsellers</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link text-light" href="{% url 'new' %}"> New</a>
+        </li>
+    </ul>
+</div>
+{% endblock navbar %}
+
+{% block content %}
+    <div style="padding:3px; background-color: EDAF66; border-radius: 20px; margin-top: 10px;">
+          <form action="{% url 'search' %}" method="get" class="row justify-content-start" style="margin-top: 10px; margin-left: 3px;">
+            <div class="btn-group col-1-5" style="margin: 0px; margin-left:15px; padding: 0px;">
+                <button type="button" class="col-12 btn btn-secondary dropdown-toggle buttomBorder" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> All </button>
+                <div class="dropdown-menu dropdown-menu-right" style="margin: 0px; padding: 0px;">
+                    <a href="{% url 'new'  %}"><button class="dropdown-item" type="button">Newly</button></a>
+                    <a href="{% url 'bestseller' %}"><button class="dropdown-item" type="button">Best-Selling</button></a>
+                    <a href="/filter/?genre=1&genre=4&genre=14&genre=22" ><button class="dropdown-item" type="button">Fiction</button></a>
+                    <a href="/filter/?genre=24"><button class="dropdown-item" type="button">History</button></a>
+                </div>
+            </div>
+          <div class="col-3 row">
+            <div class="col-9 col-sm-6" style="margin: 0px; padding: 0px;">
+            <input class="form-control" type="search" placeholder="Search" name="q" aria-label="Search">
+            </div>
+             <div  class="col-3 col-sm-6" style="margin: 0px; padding: 0px;">
+                <button class="btn btn-outline-light bg-success" type="submit">Search</button>
+             </div>
+         </div>
+        </form>
+
+
+    </div>
+    <div class="row" >
+        <div class="col-12 col-sm-12 boxImage mt-2" >
+            <img src="{% static '/image/NewBook.jpeg' %}" class="pictures" width="1920" height="220" alt="BookShop">
+        </div>
+    </div>
+
+    <div class="row col-12" style="margin: 0px; padding: 0px; margin-bottom: 15px; ">
+        <div class="col-12 col-md-12 col-lg-3 justify-content-end" style="background-color: B8680A;">
+            <div class="row " style="margin: 0px; padding: 0px;">
+                <h4 style="color: #FFFFFF; font-size: 22px; font-family: Saira SemiCondensed; margin-top: 20px;"></h4>
+            </div>
+              <form action="{% url 'filter' %}" method="get" name="filter">
+              <div class="row" style="margin: 0px; padding: 0px;">
+                <a class="nav-link dropdown-toggle dropBest" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 22px; color: #000000;">View</a>
+
+                  <div class="dropdown-menu dropdown-menu-left margin: 0px; padding: 0px;">
+<!--                    <button class="JUSTTEST dropdown-item" type="button">Price(low to high)</button>-->
+<!--                    <button class="JUSTTEST dropdown-item" type="button">Price(high to low)</button>-->
+<!--                    <button class="JUSTTEST dropdown-item" type="button">Publication date(old)</button>-->
+<!--                    <button class="JUSTTEST dropdown-item" type="button">Publication date(new)</button>-->
+                    <li class="editContent dropdown-item">
+                    <input style="width: 15px !important; height: 15px !important;" type="radio"  name="sort" value="p+">
+                    <span style="--animation-order: 36; color: rgb(255, 255, 255);">Price(low to high)</span><br>
+                    </li>
+                    <li class="editContent dropdown-item">
+                    <input style="width: 15px !important; height: 15px !important;" type="radio"  name="sort" value="p-">
+                    <span style="--animation-order: 37; color: rgb(255, 255, 255);">Price(high to low)</span><br>
+                    </li>
+                    <li class="editContent dropdown-item">
+                    <input style="width: 15px !important; height: 15px !important;" type="radio"  name="sort" value="d+">
+                    <span style="--animation-order: 38; color: rgb(255, 255, 255);">Publication date(old)</span><br>
+                    </li>
+                    <li class="editContent dropdown-item">
+                    <input style="width: 15px !important; height: 15px !important;" type="radio"  name="sort" value="d-">
+                    <span style="--animation-order: 39; color: rgb(255, 255, 255);">Publication date(new)</span><br>
+                    </li>
+                </div>
+              </div>
+
+            <div class="row" style="margin: 0px; padding: 0px;">
+                <div class="row col-12 col-lg-12" style="margin: 0px; padding: 0px;">
+                    <h4 style="color: #FFFFFF; font-size: 22px; font-family: Saira SemiCondensed; margin-top: 20px;">Filter:</h4>
+                </div>
+                <div class="row" style="margin: 0px; padding: 0px;">
+                    <ul class="TEST w3layouts-box-list">
+
+                    {% for genre in genres %}
+                    <li class="editContent">
+                        <input style="width: 15px !important; height: 15px !important;" type="checkbox" class="checked" name="genre" value="{{ genre.id }}">
+                        <span class="span editContent" style="--animation-order: {{ forloop.counter|add:29 }}; color: rgb(255, 255, 255);">{{ genre.name }}</span>
+                    </li>
+                    {% endfor %}
+
+                    </ul>
+
+                </div></div>
+            <div class="row" style="margin: 0px; padding: 0px;">
+                <h4 class=" dropBest" style="padding: 10px; padding-right: 90px; color: #000000; font-size: 22px; font-family: Saira SemiCondensed;">Format:</h4>
+            </div>
+            <div class="row" style="margin: 0px; padding: 0px;">
+                <ul class="TEST">
+                        {% for bookBinding in bindings %}
+                        <li class="editContent">
+                            <input style="width: 15px !important; height: 15px !important;" type="checkbox" class="checked" name="binding" value="{{ bookBinding.binding }}">
+                            <span style="--animation-order: {{ forloop.counter|add:29 }}; color: rgb(255, 255, 255);">{{ bookBinding.binding }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+<!--           <form action="{% url 'filterPrice' %}" method="get" name="filterPrice">-->
+            <div class="row" style="margin: 0px; padding: 0px;">
+                <h4 class=" dropBest" style="padding: 10px; padding-right: 90px; color: #000000; font-size: 22px; font-family: Saira SemiCondensed;">Price:</h4>
+            </div>
+            <div class="row" style="margin: 0px; padding: 0px;">
+                <ul class="TEST">
+                    <li class="editContent">
+                    <input style="width: 15px !important; height: 15px !important;" type="radio" class="checked" name="price" value="{{ '<5' }}">
+                    <span style="--animation-order: 36; color: rgb(255, 255, 255);">Under $5</span><br>
+                    <input style="width: 15px !important; height: 15px !important;" type="radio" class="checked" name="price" value="{{ '5-10' }}">
+                    <span style="--animation-order: 37; color: rgb(255, 255, 255);">$5 - $10</span><br>
+                    <input style="width: 15px !important; height: 15px !important;" type="radio" class="checked" name="price" value="{{ '10-20' }}">
+                    <span style="--animation-order: 38; color: rgb(255, 255, 255);">$10 - $20</span><br>
+                    <input style="width: 15px !important; height: 15px !important;" type="radio" class="checked" name="price" value="{{ '20-50' }}">
+                    <span style="--animation-order: 39; color: rgb(255, 255, 255);">$20 - $50</span><br>
+                    <input style="width: 15px !important; height: 15px !important;" type="radio" class="checked" name="price" value="{{ '50>' }}">
+                    <span style="--animation-order: 40; color: rgb(255, 255, 255);">Over $50</span>
+                    </li>
+                </ul>
+            </div>
+
+                <div class="UNDER">
+                    <button class="GO textChange" type="submit">GO!</button>
+                </div>
+                </form>
+        </div>
+
+
+        <div class="col-12 col-md-12 col-lg-9 DownChange">
+            <div style="margin:0px; margin-left:15px; background-color: #EDAF66;" class="row markerclass">
+                 <div class="row col-12">
+                     {% for book in book_list %}
+                        <div class="bookBlock" style="margin:0px; margin-top: 10px;margin-left:2.5%; background-color: #B8680A;">
+                            <a href="{{ book.get_absolute_url }}"><img style="padding: 5px; height: 420px; width: 220px" src="{{book.image.url}}" class="pictures1" style="height: 291px; width: 197px" alt="BookShop"></a>
+                            {% if book.name|length|get_digit:"-1" < 9 %}
+                                <p style="font-family: Rosarivo;font-style: normal;font-weight: normal;font-size: 22px;line-height: 34px;text-align: center; color: #FFFFFF;">{{book.name}}</p>
+                            {% else %}
+                                <p style="font-family: Rosarivo;font-style: normal;font-weight: normal;font-size: 22px;line-height: 34px;text-align: center; color: #FFFFFF;">{{book.name|slice:":9"|add:" ..."}}</p>
+                            {% endif %}
+                            <p style="font-family: Rosarivo;font-style: normal;font-weight: normal;font-size: 16px;line-height: 34px; margin-top: -20px; margin-left: 10px; color: #FFFFFF;">
+                                {% for author in book.authors.all %}
+                                {% if author.name|length|get_digit:"-1" < 9 %}
+                                    {{author.name|slice:":8"}}
+                                {% else %}
+                                    {{author.name|slice:":5"|add:" ..."}}
+                                {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p style="font-family: Rosarivo;font-style: normal;font-weight: normal;font-size: 12px;line-height: 34px; text-align: right; margin-top: -25px; margin-right: 10px; color: #FFFFFF;">
+                                {{book.money}}
+                                $
+                            </p>
+                            <a href="{% url 'add_to_cart' book.id %}" style="text-decoration: none;"><p class="Cart" style="font-family: Rosarivo;font-style: normal;font-weight: normal;font-size: 16px;line-height: 34px; text-align: center; color: #131111;">Add to Cart</p></a>
+                        </div>
+                     {% endfor %}
+
+                 </div>
+                 <div class="row col-12">
+
+                </div>
+                <div class="row PageTitle" style="margin-top: 20px;">
+                    <p style="font-family: Sail; font-size: 26px; font-size: 26px; padding-right: 5px;">Page</p>
+                    <nav aria-label="Page navigation example" style="margin-top: 6px;">
+                        <ul class="pagination justify-content-center">
+                          <li class="page-item disabled">
+                            <a class="" href="#" tabindex="-1"><img src="{% static '/image/left.png' %}" width="20" height="20" alt="BookShop"></a>
+                          </li>
+                          <li class="page-item">
+                            <input class="page-PlaceHolderNumber" type="number" placeholder="1" step="0" min="1" max="1" style="text-align: right; ">
+                          </li>
+                          <p style=" margin-top: 1.5px; font-family: Sail; font-size: 16px; font-size: 16px; padding-right: 5px; padding-left: 5px;"> of</p><p style="font-family: serif; margin-top: 1px;">1</p>
+                          <li class="">
+                            <a href="#"><img class="mirror" src="{% static '/image/left.png' %}" width="20" height="20" alt="BookShop"></a>
+                          </li>
+                        </ul>
+                      </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="pagination">-->
+<!--    <span class="step-links">-->
+<!--        {% if page_obj.has_previous %}-->
+<!--            <a href="?page=1">&laquo; first</a>-->
+<!--            <a href="?page={{ page_obj.previous_page_number }}">previous</a>-->
+<!--        {% endif %}-->
+
+<!--        <span class="current">-->
+<!--            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.-->
+<!--        </span>-->
+
+<!--        {% if page_obj.has_next %}-->
+<!--            <a href="?page={{ page_obj.next_page_number }}">next</a>-->
+<!--            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>-->
+<!--        {% endif %}-->
+<!--    </span>-->
+<!--</div>-->
+
+
+{% endblock content %}
